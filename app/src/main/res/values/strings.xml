@@ -89,5 +89,12 @@
     <!-- Toast message in editor when current product has failed to update quantity [CHAR LIMIT=NONE] -->
     <string name="error_quantity_update">Error updating quantity</string>
 
+    <!-- Toast message in editor when current product quantity is zero [CHAR LIMIT=NONE] -->
+    <string name="error_quantity_zero">Quantity is already zero.
+        Please increase stocks or contact supplier.</string>
 
+    <!-- _________________________ ProductCursorAdapter _________________________ -->
+    <string name="error_no_product_available">No product available</string>
+
+    <string name="quantity_updated_successfully">Quantity updated successfully</string>
 </resources>

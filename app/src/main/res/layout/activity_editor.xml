@@ -37,6 +37,7 @@
 
         <EditText
             android:id="@+id/edit_product_price"
+            android:inputType="number"
             style="@style/editor_edit_style"
             android:hint="euros"/>
 
@@ -53,6 +54,7 @@
 
         <EditText
             android:id="@+id/edit_product_quantity"
+            android:inputType="number"
             style="@style/editor_edit_style"
             android:hint="units" />
 

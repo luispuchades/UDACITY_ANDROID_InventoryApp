@@ -437,7 +437,13 @@ public class EditorActivity extends AppCompatActivity implements
         mDecreaseByOneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int rowsAffected = quantityVariation(ACTION_DECREASE);
+                if (mQuantity > 0) {
+                    int rowsAffected = quantityVariation(ACTION_DECREASE);
+                } else {
+                    // If quantity is zero, then toast a message advising that stocks is zero
+                    Toast.makeText(getApplicationContext(), getString(R.string.error_quantity_zero),
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
