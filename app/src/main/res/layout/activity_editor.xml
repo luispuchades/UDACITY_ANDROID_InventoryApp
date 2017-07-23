@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/dimen_16dp"
+    android:paddingRight="@dimen/dimen_16dp"
+    android:paddingTop="@dimen/dimen_8dp">
+
+    <!-- Overview Category -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:text="Product Name:"
+            style="@style/editor_text_view_style" />
+
+        <EditText
+            android:id="@+id/edit_product_name"
+            style="@style/editor_edit_style"
+            android:hint="name"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Label -->
+        <TextView
+            android:text="Price (€):"
+            style="@style/editor_text_view_style" />
+
+        <EditText
+            android:id="@+id/edit_product_price"
+            style="@style/editor_edit_style"
+            android:hint="euros"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/editor_text_view_style"
+            android:text="Quantity:" />
+
+        <EditText
+            android:id="@+id/edit_product_quantity"
+            style="@style/editor_edit_style"
+            android:hint="units" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/dimen_16dp">
+
+        <TextView
+            android:text="Quantity variation:"
+            style="@style/editor_text_view_style" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/edit_quantity_plus"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:text=" + "/>
+
+            <Button
+                android:id="@+id/edit_quantity_minus"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:text=" - "/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout style="@style/image_linear_layout_activity_detail">
+
+        <ImageView
+            android:id="@+id/edit_product_image"
+            style="@style/image_view_product_image" />
+
+        <Button
+            android:id="@+id/button_select_image"
+            style="@style/browse_image_button"
+            android:text="@string/product_browse_image_button" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/button_order_from_supplier"
+        style="@style/order_button"
+        android:text="@string/product_order_from_supplier" />
+
+</LinearLayout>

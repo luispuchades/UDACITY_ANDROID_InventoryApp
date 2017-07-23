@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/dimen_16dp"
+    android:padding="@dimen/dimen_8dp"
+    android:background="@color/colorItemBackground">
+
+    <TextView
+        android:id="@+id/name"
+        style="@style/linear_layout_product_name"
+        tools:text="Product Name" />
+
+    <LinearLayout
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        style="@style/parent_layout_product_price"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/linear_layout_product_price"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="Product Price (€):" />
+
+        <TextView
+            android:id="@+id/price"
+            style="@style/linear_layout_product_price"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            tools:text="35" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        style="@style/parent_layout_product_quantity"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/linear_layout_product_quantity"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="Quantity (units):" />
+
+        <TextView
+            android:id="@+id/quantity"
+            style="@style/linear_layout_product_quantity"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            tools:text="12" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/button_sale"
+        style="@style/relative_layout_button_sale" />
+
+</LinearLayout>
+

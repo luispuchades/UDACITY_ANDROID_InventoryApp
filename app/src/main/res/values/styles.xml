@@ -1,0 +1,124 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:colorBackground">@color/colorActivityBackground</item>
+    </style>
+
+    <!-- _________________________ list_item.xml _________________________ -->
+
+    <!-- General TextView Style-->
+    <style name="general_text_view_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <!-- Product Name Style-->
+    <style name="linear_layout_product_name" parent="general_text_view_style">
+        <item name="android:maxLines">1</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textSize">@dimen/textsize_large</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorItemProductName</item>
+        <item name="android:layout_marginBottom">@dimen/dimen_8dp</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <!-- Product Price Style-->
+    <style name="parent_layout_product_price" parent="general_text_view_style">
+        <item name="android:layout_weight">1</item>
+        <item name="android:textColor">@color/colorItemProductPrice</item>
+    </style>
+
+    <style name="linear_layout_product_price" parent="general_text_view_style">
+        <item name="android:maxLines">1</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textSize">@dimen/textsize_medium</item>
+        <item name="android:textColor">@color/colorItemProductPrice</item>
+        <item name="android:layout_marginBottom">@dimen/dimen_8dp</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <!-- Product Quantity Style-->
+    <style name="parent_layout_product_quantity" parent="general_text_view_style">
+        <item name="android:layout_weight">1</item>
+        <item name="android:textColor">@color/colorItemProductQuantity</item>
+    </style>
+
+    <style name="linear_layout_product_quantity" parent="general_text_view_style">
+        <item name="android:maxLines">1</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textColor">@color/colorItemProductQuantity</item>
+        <item name="android:textSize">@dimen/textsize_medium</item>
+        <item name="android:layout_marginBottom">@dimen/dimen_8dp</item>
+    </style>
+
+    <!-- Product Sale Button -->
+    <style name="relative_layout_button_sale">
+        <item name="android:layout_width">@dimen/button_sale_width</item>
+        <item name="android:layout_height">@dimen/button_sale_height</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:focusable">false</item>
+        <item name="android:text">@string/button_sale</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <!-- _________________________ activity_editor.xml _________________________ -->
+    <!-- Style for a category in the editor -->
+    <style name="editor_text_view_style">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:paddingTop">16dp</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textAppearance">?android:textAppearanceMedium</item>
+    </style>
+    <!-- Style for an EditText field in the editor -->
+    <style name="editor_edit_style">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textAppearance">?android:textAppearanceMedium</item>
+    </style>
+
+    <!-- Custom style for the LinearLayout for the image in activity_detail.xml -->
+    <style name="image_linear_layout_activity_detail">
+        <item name="android:layout_width">@dimen/dimen_200dp</item>
+        <item name="android:layout_height">@dimen/dimen_200dp</item>
+        <item name="android:layout_margin">@dimen/dimen_8dp</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+    <!-- Custom style for the ImageView in activity_detail.xml -->
+    <style name="image_view_product_image">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">4</item>
+        <item name="android:src">@drawable/picture_attachment</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+
+    <!-- Custom style for the browsing image Button in activity_detail.xml -->
+    <style name="browse_image_button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">0.5</item>
+    </style>
+
+    <!-- Custom style for the ordering from supplier Button in activity_detail.xml -->
+    <style name="order_button">
+        <item name="android:layout_width">@dimen/dimen_200dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+    </style>
+
+</resources>

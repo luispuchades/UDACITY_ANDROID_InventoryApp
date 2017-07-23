@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="colorActivityBackground">#EEEEEE</color>
+    <color name="colorItemBackground">#005689</color>
+    <color name="colorItemProductPrice">#AADCE6</color>
+    <color name="colorItemProductQuantity">#FFFFFF</color>
+    <color name="colorItemProductName">#FFFF00</color>
+</resources>
