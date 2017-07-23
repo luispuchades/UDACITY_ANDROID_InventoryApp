@@ -74,15 +74,15 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/edit_quantity_plus"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:id="@+id/edit_increase_one"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:text=" + "/>
 
             <Button
-                android:id="@+id/edit_quantity_minus"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:id="@+id/edit_decrease_one"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:text=" - "/>
         </LinearLayout>
     </LinearLayout>

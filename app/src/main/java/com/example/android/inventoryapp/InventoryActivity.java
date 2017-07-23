@@ -21,7 +21,7 @@ import android.widget.ListView;
 import com.example.android.inventoryapp.data.ProductContract.ProductEntry;
 
 /**
- * Displays list of pets that were entered and stored in the app.
+ * Displays list of products that were entered and stored in the app.
  */
 public class InventoryActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<Cursor>{
@@ -45,14 +45,14 @@ public class InventoryActivity extends AppCompatActivity
             }
         });
 
-        // Find the ListView which will be populated with the pet data
+        // Find the ListView which will be populated with the product data
         ListView productListView = (ListView) findViewById(R.id.list);
 
         // Find and set empty view on the ListView, so that it only shows when the list has 0 items.
         View emptyView = findViewById(R.id.empty_view);
         productListView.setEmptyView(emptyView);
 
-        // Setup an adapter to create a list item for each row of pet data in the Cursor.
+        // Setup an adapter to create a list item for each row of product data in the Cursor.
         mCursorAdapter = new ProductCursorAdapter(this, null);
         productListView.setAdapter(mCursorAdapter);
 
@@ -84,7 +84,7 @@ public class InventoryActivity extends AppCompatActivity
     }
 
         /**
-         * Helper method to insert hardcoded pet data into the database. For debugging purposes only.
+         * Helper method to insert hardcoded product data into the database. For debugging purposes only.
          */
         private void insertProduct() {
             // Create a ContentValues object where column names are the keys,
@@ -127,7 +127,7 @@ public class InventoryActivity extends AppCompatActivity
     }
 
     /**
-     * Helper method to delete all pets in the database.
+     * Helper method to delete all products in the database.
      */
     private void deleteAllProducts() {
         int rowsDeleted = getContentResolver().delete(ProductEntry.CONTENT_URI, null, null);
@@ -156,7 +156,7 @@ public class InventoryActivity extends AppCompatActivity
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        // Update {@Link PetCursorAdapter} with this new cursor containing updated pet data
+        // Update {@Link ProductCursorAdapter} with this new cursor containing updated product data
         mCursorAdapter.swapCursor(data);
     }
 

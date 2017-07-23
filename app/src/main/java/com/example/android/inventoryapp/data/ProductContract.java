@@ -9,7 +9,7 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 
 /**
- * API Contract for the Pets app.
+ * API Contract for the Products app.
  */
 public final class ProductContract {
 
@@ -34,7 +34,7 @@ public final class ProductContract {
     /**
      * Possible path (appended to base content URI for possible URI's)
      * For instance, content://com.example.android.inventoryapp/products/ is a valid path for
-     * looking at pet data. content://com.example.android.inventoryapp/staff/ will fail,
+     * looking at products data. content://com.example.android.inventoryapp/staff/ will fail,
      * as the ContentProvider hasn't been given any information on what to do with "staff".
      */
     public static final String PATH_PRODUCTS = "products";

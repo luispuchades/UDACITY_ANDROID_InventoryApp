@@ -17,11 +17,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.android.inventoryapp.data.ProductContract.ProductEntry;
+
+import static com.example.android.inventoryapp.R.id.price;
+import static com.example.android.inventoryapp.R.id.quantity;
 
 /**
  * Allows user to create a new product or edit an existing one.
@@ -47,9 +51,21 @@ public class EditorActivity extends AppCompatActivity implements
     /** Boolean flag that keeps track of whether the product has been edited (true) or not (false) */
     private boolean mProductHasChanged = false;
 
+    /** Quantity variation Variable */
+    private int mQuantity;
+
+
+    /** Button and constant to increase quantity by one  */
+    private Button mIncreaseByOneButton;
+    private static final int ACTION_INCREASE = 1;
+
+    /** Button and constant to decrease quantity by one */
+    private Button mDecreaseByOneButton;
+    private static final int ACTION_DECREASE = -1;
+
     /**
      * OnTouchListener that listens for any user touches on a View, implying that they are modifying
-     * the view, and we change the mPetHasChanged boolean to true.
+     * the view, and we change the mProductHasChanged boolean to true.
      */
     private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
         @Override
@@ -91,6 +107,9 @@ public class EditorActivity extends AppCompatActivity implements
         mNameEditText = (EditText) findViewById(R.id.edit_product_name);
         mPriceEditText = (EditText) findViewById(R.id.edit_product_price);
         mQuantityEditText = (EditText) findViewById(R.id.edit_product_quantity);
+        mIncreaseByOneButton = (Button) findViewById(R.id.edit_increase_one);
+        mDecreaseByOneButton = (Button) findViewById(R.id.edit_decrease_one);
+
 
 
         // Setup OnTouchListeners on all the input fields, so we can determine if the user
@@ -99,6 +118,7 @@ public class EditorActivity extends AppCompatActivity implements
         mNameEditText.setOnTouchListener(mTouchListener);
         mPriceEditText.setOnTouchListener(mTouchListener);
         mQuantityEditText.setOnTouchListener(mTouchListener);
+
     }
 
     /**
@@ -130,12 +150,13 @@ public class EditorActivity extends AppCompatActivity implements
         // If the weight is not provided by the user, don't try to parse the string into an
         // integer value. Use 0 by default.
         int quantity = 0;
+
         if (!TextUtils.isEmpty(quantityString)) {
             quantity = Integer.parseInt(quantityString);
         }
         values.put(ProductEntry.COLUMN_PRODUCT_QUANTITY, quantity);
 
-        // Determine if this is a new or existing product by checking if mCurrentPetUri is null or not
+        // Determine if this is a new or existing product by checking if mCurrentProductUri is null or not
         if (mCurrentProductUri == null) {
             // This is a NEW productt, so insert a new product into the provider,
             // returning the content URI for the new product.
@@ -152,9 +173,9 @@ public class EditorActivity extends AppCompatActivity implements
                         Toast.LENGTH_SHORT).show();
             }
         } else {
-            // Otherwise this is an EXISTING product, so update the product with content URI: mCurrentPetUri
+            // Otherwise this is an EXISTING product, so update the product with content URI: mCurrentProductUri
             // and pass in the new ContentValues. Pass in null for the selection and selection args
-            // because mCurrentPetUri will already identify the correct row in the database that
+            // because mCurrentProductUri will already identify the correct row in the database that
             // we want to modify.
             int rowsAffected = getContentResolver().update(mCurrentProductUri, values, null, null);
 
@@ -200,7 +221,7 @@ public class EditorActivity extends AppCompatActivity implements
         switch (item.getItemId()) {
             // Respond to a click on the "Save" menu option
             case R.id.action_save:
-                // Save pet to database
+                // Save product to database
                 saveProduct();
                 // Exit activity
                 finish();
@@ -212,7 +233,7 @@ public class EditorActivity extends AppCompatActivity implements
                 return true;
             // Respond to a click on the "Up" arrow button in the app bar
             case android.R.id.home:
-                // If the pet hasn't changed, continue with navigating up to parent activity
+                // If the product hasn't changed, continue with navigating up to parent activity
                 // which is the {@link CatalogActivity}.
                 if (!mProductHasChanged) {
                     NavUtils.navigateUpFromSameTask(EditorActivity.this);
@@ -243,7 +264,7 @@ public class EditorActivity extends AppCompatActivity implements
      */
     @Override
     public void onBackPressed() {
-        // If the pet hasn't changed, continue with handling back button press
+        // If the prodduct hasn't changed, continue with handling back button press
         if (!mProductHasChanged) {
             super.onBackPressed();
             return;
@@ -266,7 +287,7 @@ public class EditorActivity extends AppCompatActivity implements
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        // Since the editor shows all pet attributes, define a projection that contains
+        // Since the editor shows all product attributes, define a projection that contains
         // all columns from the product table
         String[] projection = {
                 ProductEntry._ID,
@@ -293,20 +314,24 @@ public class EditorActivity extends AppCompatActivity implements
         // Proceed with moving to the first row of the cursor and reading data from it
         // (This should be the only row in the cursor)
         if (cursor.moveToFirst()) {
-            // Find the columns of pet attributes that we're interested in
+            // Find the columns of product attributes that we're interested in
             int nameColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_NAME);
             int priceColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_PRICE);
             int quantityColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_QUANTITY);
 
+
             // Extract out the value from the Cursor for the given column index
             String name = cursor.getString(nameColumnIndex);
             int price = cursor.getInt(priceColumnIndex);
-            int quantity = cursor.getInt(quantityColumnIndex);
+            mQuantity = cursor.getInt(quantityColumnIndex);
+
+            increaseQuantityByOneListener();
+            decreaseQuantityByOneListener();
 
             // Update the views on the screen with the values from the database
             mNameEditText.setText(name);
             mPriceEditText.setText(Integer.toString(price));
-            mQuantityEditText.setText(Integer.toString(quantity));
+            mQuantityEditText.setText(Integer.toString(mQuantity));
 
         }
     }
@@ -347,14 +372,14 @@ public class EditorActivity extends AppCompatActivity implements
         builder.setMessage(R.string.delete_dialog_msg);
         builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                // User clicked the "Delete" button, so delete the pet.
+                // User clicked the "Delete" button, so delete the product.
                 deleteProduct();
             }
         });
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked the "Cancel" button, so dismiss the dialog
-                // and continue editing the pet.
+                // and continue editing the product.
                 if (dialog != null) {
                     dialog.dismiss();
                 }
@@ -375,14 +400,14 @@ public class EditorActivity extends AppCompatActivity implements
     }
 
     /**
-     * Perform the deletion of the pet in the database.
+     * Perform the deletion of the product in the database.
      */
     private void deleteProduct() {
-        // Only perform the delete if this is an existing pet.
+        // Only perform the delete if this is an existing product.
         if (mCurrentProductUri != null) {
-            // Call the ContentResolver to delete the pet at the given content URI.
-            // Pass in null for the selection and selection args because the mCurrentPetUri
-            // content URI already identifies the pet that we want.
+            // Call the ContentResolver to delete the product at the given content URI.
+            // Pass in null for the selection and selection args because the mCurrentProductUri
+            // content URI already identifies the product that we want.
             int rowsDeleted = getContentResolver().delete(mCurrentProductUri, null, null);
             // Show a toast message depending on whether or not the delete was successful.
             if (rowsDeleted == 0) {
@@ -397,5 +422,37 @@ public class EditorActivity extends AppCompatActivity implements
             // Close the activity
             finish();
         }
+    }
+
+    private void increaseQuantityByOneListener() {
+        mIncreaseByOneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int rowsAffected = quantityVariation(ACTION_INCREASE);
+            }
+        });
+    }
+
+    private void decreaseQuantityByOneListener() {
+        mDecreaseByOneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int rowsAffected = quantityVariation(ACTION_DECREASE);
+            }
+        });
+    }
+
+    private int quantityVariation(int actionVariation) {
+        ContentValues values = new ContentValues();
+        values.put(ProductEntry.COLUMN_PRODUCT_QUANTITY, mQuantity + actionVariation);
+
+        // Update the row pointed by mCurrentItemUri
+        int rowsAffected = getContentResolver().update(mCurrentProductUri, values, null, null);
+        if (rowsAffected != 1) {
+            // If no rows were affected, then there was an error with the update.
+            Toast.makeText(getApplicationContext(), getString(R.string.error_quantity_update),
+                    Toast.LENGTH_SHORT).show();
+        }
+        return rowsAffected;
     }
 }

@@ -153,13 +153,13 @@ public class ProductProvider extends ContentProvider {
         // Check that the price is valid
         Integer price = values.getAsInteger(ProductEntry.COLUMN_PRODUCT_PRICE);
         if (price != null && price < 0) {
-            throw new IllegalArgumentException("Pet requires valid price");
+            throw new IllegalArgumentException("Product requires valid price");
         }
 
         // If the quantity is provided, check that it's greater than or equal to 0 EUR
-        Integer weight = values.getAsInteger(ProductEntry.COLUMN_PRODUCT_QUANTITY);
-        if (weight != null && weight < 0) {
-            throw new IllegalArgumentException("Pet requires valid quantity");
+        Integer quantity = values.getAsInteger(ProductEntry.COLUMN_PRODUCT_QUANTITY);
+        if (quantity != null && quantity < 0) {
+            throw new IllegalArgumentException("Product requires valid quantity");
         }
 
         // Get writeable database
@@ -207,12 +207,12 @@ public class ProductProvider extends ContentProvider {
      * Return the number of rows that were successfully updated.
      */
     private int updateProduct(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        // If the {@link PetProduct#COLUMN_PRODUCT_NAME} key is present,
+        // If the {@link Product#COLUMN_PRODUCT_NAME} key is present,
         // check that the name value is not null.
         if (values.containsKey(ProductEntry.COLUMN_PRODUCT_NAME)) {
             String name = values.getAsString(ProductEntry.COLUMN_PRODUCT_NAME);
             if (name == null) {
-                throw new IllegalArgumentException("Pet requires a name");
+                throw new IllegalArgumentException("Product requires a name");
             }
         }
 
