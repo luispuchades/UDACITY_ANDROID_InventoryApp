@@ -22,6 +22,8 @@ import android.widget.Toast;
 
 import com.example.android.inventoryapp.data.ProductContract.ProductEntry;
 
+import static java.security.AccessController.getContext;
+
 /**
  * Displays list of products that were entered and stored in the app.
  */
@@ -134,6 +136,9 @@ public class InventoryActivity extends AppCompatActivity
     private void deleteAllProducts() {
         int rowsDeleted = getContentResolver().delete(ProductEntry.CONTENT_URI, null, null);
         Log.v("CatalogActivity", rowsDeleted + " rows deleted from products database");
+
+        // If 1 or more rows were updated, then notify all listeners that the data at the
+        // given URI has changed
     }
 
     @Override

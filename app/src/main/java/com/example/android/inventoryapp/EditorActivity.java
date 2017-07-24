@@ -123,6 +123,7 @@ public class EditorActivity extends AppCompatActivity implements
         mPriceEditText.setOnTouchListener(mTouchListener);
         mQuantityEditText.setOnTouchListener(mTouchListener);
 
+        orderFromTheSupplier();
     }
 
     /**
@@ -337,8 +338,7 @@ public class EditorActivity extends AppCompatActivity implements
             mPriceEditText.setText(Integer.toString(price));
             mQuantityEditText.setText(Integer.toString(mQuantity));
 
-            orderFromTheSupplier();
-        }
+         }
     }
 
     /**
@@ -485,6 +485,10 @@ public class EditorActivity extends AppCompatActivity implements
         intent.setData(Uri.parse("mailto:"));
         intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.purchase_order_subject));
         intent.putExtra(Intent.EXTRA_TEXT, orderSummary);
+
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
     }
 
     private String createOrderSummary() {
