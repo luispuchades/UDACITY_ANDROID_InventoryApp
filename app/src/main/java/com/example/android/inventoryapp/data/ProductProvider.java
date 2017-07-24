@@ -15,6 +15,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.example.android.inventoryapp.data.ProductContract.ProductEntry;
@@ -150,7 +151,11 @@ public class ProductProvider extends ContentProvider {
             throw new IllegalArgumentException("Product requires a name");
         }
 
-
+        // Check that the mail is not null
+        String email = values.getAsString(ProductEntry.COLUMN_PRODUCT_EMAIL);
+        if (email == null) {
+            throw new IllegalArgumentException("Product requires a supplier email");
+        }
 
         // Check that the price is valid
         Integer price = values.getAsInteger(ProductEntry.COLUMN_PRODUCT_PRICE);
@@ -218,7 +223,14 @@ public class ProductProvider extends ContentProvider {
             }
         }
 
-
+        // If the {@link Product#COLUMN_PRODUCT_EMAIL} key is present,
+        // check that the name value is not null.
+        if (values.containsKey(ProductEntry.COLUMN_PRODUCT_EMAIL)) {
+            String email = values.getAsString(ProductEntry.COLUMN_PRODUCT_EMAIL);
+            if (email == null) {
+                throw new IllegalArgumentException("Product requires a name");
+            }
+        }
 
         // If the {@link ProductEntry#COLUMN_PRODUCT_PRICE} key is present,
         // check that the quantity value is valid.

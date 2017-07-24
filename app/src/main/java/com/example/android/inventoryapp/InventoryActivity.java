@@ -95,7 +95,7 @@ public class InventoryActivity extends AppCompatActivity
             // and the mouse product attributes are the values.
             ContentValues values = new ContentValues();
             values.put(ProductEntry.COLUMN_PRODUCT_NAME, "Computer Mouse");
-            //values.put(ProductEntry.COLUMN_PRODUCT_EMAIL, "computer@computer.com");
+            values.put(ProductEntry.COLUMN_PRODUCT_EMAIL, "computer@computer.com");
             values.put(ProductEntry.COLUMN_PRODUCT_PRICE, "12");
             values.put(ProductEntry.COLUMN_PRODUCT_QUANTITY, "4");
 

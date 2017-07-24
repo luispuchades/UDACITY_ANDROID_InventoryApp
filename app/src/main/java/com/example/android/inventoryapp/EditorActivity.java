@@ -54,6 +54,9 @@ public class EditorActivity extends AppCompatActivity implements
     /** Boolean flag that keeps track of whether the product has been edited (true) or not (false) */
     private boolean mProductHasChanged = false;
 
+    /** Price variation Variable */
+    private int mPrice;
+
     /** Quantity variation Variable */
     private int mQuantity;
 
@@ -342,7 +345,7 @@ public class EditorActivity extends AppCompatActivity implements
             // Extract out the value from the Cursor for the given column index
             mName = cursor.getString(nameColumnIndex);
             mEmail = cursor.getString(emailColumnIndex);
-            int price = cursor.getInt(priceColumnIndex);
+            mPrice = cursor.getInt(priceColumnIndex);
             mQuantity = cursor.getInt(quantityColumnIndex);
 
             increaseQuantityByOneListener();
@@ -352,7 +355,7 @@ public class EditorActivity extends AppCompatActivity implements
             // Update the views on the screen with the values from the database
             mNameEditText.setText(mName);
             mEmailEditText.setText(mEmail);
-            mPriceEditText.setText(Integer.toString(price));
+            mPriceEditText.setText(Integer.toString(mPrice));
             mQuantityEditText.setText(Integer.toString(mQuantity));
 
          }
@@ -486,9 +489,12 @@ public class EditorActivity extends AppCompatActivity implements
     }
 
     private void supplierOrderListener() {
-        mEmailEditText.setOnClickListener(new View.OnClickListener() {
+        mOrderSupplier.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                String purchaseMessage = createOrderSummary();
+
                 if (!Utils.isValidEmail(mEmail)) {
                     // Mail address is not valid
                     Toast.makeText(getApplicationContext(), R.string.email_not_valid,
@@ -500,8 +506,8 @@ public class EditorActivity extends AppCompatActivity implements
                     /* This works */
                     String uriText = "mailto:" + mEmail +
                             "?subject=" + Uri.encode(getString(R.string.purchase_order_subject)) +
-                            "&body=" + String.format(getString(R.string.mail_body),
-                            mName);
+                            "&body=" + String.format(purchaseMessage,
+                            mName, mPrice, MINIMUM_QUANTITY_ORDER);
                     Uri uri = Uri.parse(uriText);
                     intent.setData(uri);
 

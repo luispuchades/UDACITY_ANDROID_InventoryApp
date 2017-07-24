@@ -96,9 +96,9 @@
     <!-- _________________________ Purchase Order _________________________ -->
     <string name="purchase_order_subject">Warehouse Ltd. Suppliment Purchase Order</string>
     <string name="purchase_order_message1">Purchase Order</string>
-    <string name="purchase_order_message2">Product name:</string>
-    <string name="purchase_order_message3">Price: </string>
-    <string name="purchase_order_message4">Quantity:</string>
+    <string name="purchase_order_message2">Product name: %s</string>
+    <string name="purchase_order_message3">Price: %d</string>
+    <string name="purchase_order_message4">Quantity: %d</string>
     <string name="purchase_order_message5">(Data to be filled by the Purchase Manager)</string>
     <string name="purchase_order_message6">Thank you</string>
     <string name="email_not_valid">Email address is not valid</string>
