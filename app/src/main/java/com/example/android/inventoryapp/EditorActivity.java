@@ -166,7 +166,9 @@ public class EditorActivity extends AppCompatActivity implements
     /**
      * Get user input from editor and save productg into database.
      */
-    private void saveProduct() {
+    private boolean saveProduct() {
+        boolean saved = false;
+
         // Read from input fields
         // Use trim to eliminate leading or trailing white space
         String nameString = mNameEditText.getText().toString().trim();
@@ -181,7 +183,13 @@ public class EditorActivity extends AppCompatActivity implements
                 TextUtils.isEmpty(quantityString)) {
             // Since no fields were modified, we can return early without creating a new product.
             // No need to create ContentValues and no need to do any ContentProvider operations.
-            return;
+            return saved;
+        }
+
+        if (mImageUri == null) {
+            Toast.makeText(this, getString(R.string.editor_image_error),
+                    Toast.LENGTH_SHORT).show();
+            return saved;
         }
 
         // Create a ContentValues object where column names are the keys,
@@ -233,8 +241,10 @@ public class EditorActivity extends AppCompatActivity implements
                 // Otherwise, the update was successful and we can display a toast.
                 Toast.makeText(this, getString(R.string.editor_update_product_successful),
                         Toast.LENGTH_SHORT).show();
+                saved = true;
             }
         }
+        return saved;
     }
 
     @Override
@@ -267,10 +277,13 @@ public class EditorActivity extends AppCompatActivity implements
             // Respond to a click on the "Save" menu option
             case R.id.action_save:
                 // Save product to database
-                saveProduct();
-                // Exit activity
-                finish();
-                return true;
+                boolean saved = saveProduct();
+                if (saved) {
+                    // Exit activity
+                    finish();
+                    return true;
+                }
+                break;
             // Respond to a click on the "Delete" menu option
             case R.id.action_delete:
                 // Pop up confirmation dialog for deletion
@@ -453,6 +466,7 @@ public class EditorActivity extends AppCompatActivity implements
         mEmailEditText.setText("");
         mPriceEditText.setText("");
         mQuantityEditText.setText("");
+        mProductImage.setImageURI(null);
     }
 
     /**

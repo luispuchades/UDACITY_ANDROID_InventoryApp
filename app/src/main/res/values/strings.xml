@@ -110,6 +110,8 @@
 
     <string name="quantity_updated_successfully">Quantity updated successfully</string>
 
+    <!-- _________________________ Image Loader_________________________ -->
+    <string name="editor_image_error">No image loaded</string>
 
 
 
