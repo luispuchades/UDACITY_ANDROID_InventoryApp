@@ -30,6 +30,9 @@
     <!-- Label for the product's breed if the breed is unknown [CHAR LIMIT=20] -->
     <string name="unknown_quantity">Unknown quantity</string>
 
+    !-- Label for the product's breed if the breed is unknown [CHAR LIMIT=20] -->
+    <string name="unknown_price">Unknown price</string>
+
     <!-- _________________________ menu strings _________________________ -->
     <!-- Label for overflow menu option that inserts fake product data into the app [CHAR LIMIT=20] -->
     <string name="action_insert_dummy_data">Insert Dummy Data</string>
@@ -93,6 +96,13 @@
     <string name="error_quantity_zero">Quantity is already zero.
         Please increase stocks or contact supplier.</string>
 
+    <!-- Editor toast errors -->
+    <string name="editor_name_error">No name added</string>
+    <string name="editor_name_price">No price added</string>
+    <string name="editor_name_quantity">No quantity added</string>
+    <string name="editor_image_error">No image loaded</string>
+
+
     <!-- _________________________ Purchase Order _________________________ -->
     <string name="purchase_order_subject">Warehouse Ltd. Suppliment Purchase Order</string>
     <string name="purchase_order_message1">Purchase Order</string>
@@ -109,9 +119,6 @@
     <string name="error_no_product_available">No product available</string>
 
     <string name="quantity_updated_successfully">Quantity updated successfully</string>
-
-    <!-- _________________________ Image Loader_________________________ -->
-    <string name="editor_image_error">No image loaded</string>
 
 
 

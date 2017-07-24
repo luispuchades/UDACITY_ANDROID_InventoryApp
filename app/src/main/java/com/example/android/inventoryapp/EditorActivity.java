@@ -186,6 +186,12 @@ public class EditorActivity extends AppCompatActivity implements
             return saved;
         }
 
+        if (nameString == null || nameString == "") {
+            Toast.makeText(this, getString(R.string.editor_name_error),
+                    Toast.LENGTH_SHORT).show();
+            return saved;
+        }
+
         if (mImageUri == null) {
             Toast.makeText(this, getString(R.string.editor_image_error),
                     Toast.LENGTH_SHORT).show();

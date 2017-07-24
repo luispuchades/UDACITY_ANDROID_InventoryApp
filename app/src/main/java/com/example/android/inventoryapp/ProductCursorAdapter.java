@@ -135,7 +135,7 @@ public class ProductCursorAdapter extends CursorAdapter {
         // If the product quantity is empty string or null, then use some default text
         // that says "Unknown price", so the TextView isn't blank.
         if (TextUtils.isEmpty(productPrice)) {
-            productPrice = context.getString(R.string.unknown_quantity);
+            productPrice = context.getString(R.string.unknown_price);
         }
 
         // Update the TextViews with the attributes for the current product
