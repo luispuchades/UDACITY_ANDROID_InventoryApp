@@ -8,6 +8,8 @@ import android.text.TextUtils;
 
 public class Utils {
 
+    static final int ADD_PHOTO = 1;
+
     /**
      * Private default constructor to avoid instantiating this class
      */

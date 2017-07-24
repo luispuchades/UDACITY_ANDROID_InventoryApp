@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -81,6 +83,23 @@ public class EditorActivity extends AppCompatActivity implements
     private static final int MINIMUM_QUANTITY_ORDER = 6;
 
     /**
+     * VARIABLES FOR ADDING IMAGE
+     */
+    //View for image
+    private ImageView mProductImage;
+
+    //Button for adding image
+    private Button mButtonImage;
+
+    //Variable for parsing the image into URI
+    private Uri mImageUri;
+
+    //Variable String for image from cursor on loader
+    private String mImage;
+
+
+
+    /**
      * OnTouchListener that listens for any user touches on a View, implying that they are modifying
      * the view, and we change the mProductHasChanged boolean to true.
      */
@@ -128,6 +147,9 @@ public class EditorActivity extends AppCompatActivity implements
         mIncreaseByOneButton = (Button) findViewById(R.id.edit_increase_one);
         mDecreaseByOneButton = (Button) findViewById(R.id.edit_decrease_one);
         mOrderSupplier = (Button) findViewById(R.id.button_supplier);
+        mProductImage = (ImageView) findViewById(R.id.edit_product_image);
+        mButtonImage = (Button) findViewById(R.id.button_image);
+
 
         // Setup OnTouchListeners on all the input fields, so we can determine if the user
         // has touched or modified them. This will let us know if there are unsaved changes
@@ -136,6 +158,8 @@ public class EditorActivity extends AppCompatActivity implements
         mEmailEditText.setOnTouchListener(mTouchListener);
         mPriceEditText.setOnTouchListener(mTouchListener);
         mQuantityEditText.setOnTouchListener(mTouchListener);
+        // mProductImage.setOnTouchListener(mTouchListener);
+        addImageListener();
 
     }
 
@@ -167,6 +191,7 @@ public class EditorActivity extends AppCompatActivity implements
         values.put(ProductEntry.COLUMN_PRODUCT_EMAIL, emailString);
         values.put(ProductEntry.COLUMN_PRODUCT_PRICE, priceString);
         values.put(ProductEntry.COLUMN_PRODUCT_QUANTITY, quantityString);
+        values.put(ProductEntry.COLUMN_PRODUCT_IMAGE, mImageUri.toString());
         // If the weight is not provided by the user, don't try to parse the string into an
         // integer value. Use 0 by default.
         int quantity = 0;
@@ -314,7 +339,8 @@ public class EditorActivity extends AppCompatActivity implements
                 ProductEntry.COLUMN_PRODUCT_NAME,
                 ProductEntry.COLUMN_PRODUCT_EMAIL,
                 ProductEntry.COLUMN_PRODUCT_PRICE,
-                ProductEntry.COLUMN_PRODUCT_QUANTITY };
+                ProductEntry.COLUMN_PRODUCT_QUANTITY,
+                ProductEntry.COLUMN_PRODUCT_IMAGE};
 
         // This loader will execute the ContentProvider's query method on a background thread
         return new CursorLoader(this,   // Parent activity context
@@ -340,6 +366,7 @@ public class EditorActivity extends AppCompatActivity implements
             int emailColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_EMAIL);
             int priceColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_PRICE);
             int quantityColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_QUANTITY);
+            int imageColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_IMAGE);
 
 
             // Extract out the value from the Cursor for the given column index
@@ -347,6 +374,8 @@ public class EditorActivity extends AppCompatActivity implements
             mEmail = cursor.getString(emailColumnIndex);
             mPrice = cursor.getInt(priceColumnIndex);
             mQuantity = cursor.getInt(quantityColumnIndex);
+            mImage = cursor.getString(imageColumnIndex);
+            mImageUri = Uri.parse(mImage);
 
             increaseQuantityByOneListener();
             decreaseQuantityByOneListener();
@@ -357,6 +386,7 @@ public class EditorActivity extends AppCompatActivity implements
             mEmailEditText.setText(mEmail);
             mPriceEditText.setText(Integer.toString(mPrice));
             mQuantityEditText.setText(Integer.toString(mQuantity));
+            mProductImage.setImageURI(mImageUri);
 
          }
     }
@@ -523,7 +553,7 @@ public class EditorActivity extends AppCompatActivity implements
         });
     }
 
-
+    //Text message for intent mail to supplier
     private String createOrderSummary() {
         String purchaseOrder = getString(R.string.purchase_order_message1);
         purchaseOrder += "\n" + getString(R.string.purchase_order_message2);
@@ -534,4 +564,36 @@ public class EditorActivity extends AppCompatActivity implements
 
         return purchaseOrder;
     }
+
+    private void addImageListener() {
+        mButtonImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent;
+
+                if (Build.VERSION.SDK_INT < 19) {
+                    intent = new Intent(Intent.ACTION_GET_CONTENT);
+                } else {
+                    intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+                }
+                intent.setType("image/*");
+                startActivityForResult(intent, Utils.ADD_PHOTO);
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case Utils.ADD_PHOTO:
+                if (resultCode == RESULT_OK) {
+                    mImageUri = data.getData();
+                    mProductImage.setImageURI(mImageUri);
+                }
+                break;
+        }
+    }
+
 }
