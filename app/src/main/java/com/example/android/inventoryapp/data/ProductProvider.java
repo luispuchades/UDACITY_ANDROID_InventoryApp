@@ -150,11 +150,7 @@ public class ProductProvider extends ContentProvider {
             throw new IllegalArgumentException("Product requires a name");
         }
 
-        // Check that the mail is not null
-        String mail = values.getAsString(ProductEntry.COLUMN_PRODUCT_EMAIL);
-        if (name == null) {
-            throw new IllegalArgumentException("Product requires a supplier mail");
-        }
+
 
         // Check that the price is valid
         Integer price = values.getAsInteger(ProductEntry.COLUMN_PRODUCT_PRICE);
@@ -222,14 +218,7 @@ public class ProductProvider extends ContentProvider {
             }
         }
 
-        // If the {@link Product#COLUMN_PRODUCT_EMAIL} key is present,
-        // check that the name value is not null.
-        if (values.containsKey(ProductEntry.COLUMN_PRODUCT_EMAIL)) {
-            String mail = values.getAsString(ProductEntry.COLUMN_PRODUCT_EMAIL);
-            if (mail == null) {
-                throw new IllegalArgumentException("Product requires a name");
-            }
-        }
+
 
         // If the {@link ProductEntry#COLUMN_PRODUCT_PRICE} key is present,
         // check that the quantity value is valid.
