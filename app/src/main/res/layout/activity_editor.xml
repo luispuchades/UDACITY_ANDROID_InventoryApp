@@ -98,13 +98,13 @@
         <Button
             android:id="@+id/button_select_image"
             style="@style/browse_image_button"
-            android:text="@string/product_browse_image_button" />
+            android:text="@string/product_add_image_button" />
 
     </LinearLayout>
 
     <Button
-        android:id="@+id/button_order_from_supplier"
+        android:id="@+id/button_supplier"
         style="@style/order_button"
-        android:text="@string/product_order_from_supplier" />
+        android:text="@string/product_order_supplier" />
 
 </LinearLayout>

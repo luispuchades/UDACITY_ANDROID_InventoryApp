@@ -20,10 +20,10 @@
     <string name="hint_habit_name">Name</string>
 
     <!-- DetailActivity field for product image browsing button -->
-    <string name="product_browse_image_button">Browse Image</string>
+    <string name="product_add_image_button">Add Image</string>
 
     <!-- DetailActivity field for product order from supplier button -->
-    <string name="product_order_from_supplier">Order from supplier</string>
+    <string name="product_order_supplier">Order from the supplier</string>
     <string name="product_supplier_email">supplier@email.com</string>
 
 
@@ -93,8 +93,19 @@
     <string name="error_quantity_zero">Quantity is already zero.
         Please increase stocks or contact supplier.</string>
 
+    <!-- _________________________ Purchase Order _________________________ -->
+    <string name="purchase_order_subject">Warehouse Ltd. Suppliment Purchase Order</string>
+    <string name="purchase_order_message1">Purchase Order</string>
+    <string name="purchase_order_message2">Product name:</string>
+    <string name="purchase_order_message3">Price: </string>
+    <string name="purchase_order_message4">Quantity:</string>
+    <string name="purchase_order_message5">(Data to be filled by the Purchase Manager)</string>
+    <string name="purchase_order_message6">Thank you</string>
+
+
     <!-- _________________________ ProductCursorAdapter _________________________ -->
     <string name="error_no_product_available">No product available</string>
 
     <string name="quantity_updated_successfully">Quantity updated successfully</string>
+
 </resources>

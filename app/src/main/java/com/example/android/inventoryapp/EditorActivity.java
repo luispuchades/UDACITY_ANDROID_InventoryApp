@@ -54,7 +54,6 @@ public class EditorActivity extends AppCompatActivity implements
     /** Quantity variation Variable */
     private int mQuantity;
 
-
     /** Button and constant to increase quantity by one  */
     private Button mIncreaseByOneButton;
     private static final int ACTION_INCREASE = 1;
@@ -62,6 +61,12 @@ public class EditorActivity extends AppCompatActivity implements
     /** Button and constant to decrease quantity by one */
     private Button mDecreaseByOneButton;
     private static final int ACTION_DECREASE = -1;
+
+    /** Order from the supplier variable  */
+    private Button mOrderSupplier;
+
+    /** Minimum quantity order from the supplier */
+    private static final int MINIMUM_QUANTITY_ORDER = 6;
 
     /**
      * OnTouchListener that listens for any user touches on a View, implying that they are modifying
@@ -109,8 +114,7 @@ public class EditorActivity extends AppCompatActivity implements
         mQuantityEditText = (EditText) findViewById(R.id.edit_product_quantity);
         mIncreaseByOneButton = (Button) findViewById(R.id.edit_increase_one);
         mDecreaseByOneButton = (Button) findViewById(R.id.edit_decrease_one);
-
-
+        mOrderSupplier = (Button) findViewById(R.id.button_supplier);
 
         // Setup OnTouchListeners on all the input fields, so we can determine if the user
         // has touched or modified them. This will let us know if there are unsaved changes
@@ -333,6 +337,7 @@ public class EditorActivity extends AppCompatActivity implements
             mPriceEditText.setText(Integer.toString(price));
             mQuantityEditText.setText(Integer.toString(mQuantity));
 
+            orderFromTheSupplier();
         }
     }
 
@@ -460,5 +465,36 @@ public class EditorActivity extends AppCompatActivity implements
                     Toast.LENGTH_SHORT).show();
         }
         return rowsAffected;
+    }
+
+    private void orderFromTheSupplier() {
+        mOrderSupplier.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mailToSupplier();
+            }
+        });
+    }
+
+
+    private void mailToSupplier() {
+
+        String orderSummary = createOrderSummary();
+
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:"));
+        intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.purchase_order_subject));
+        intent.putExtra(Intent.EXTRA_TEXT, orderSummary);
+    }
+
+    private String createOrderSummary() {
+        String purchaseOrder = getString(R.string.purchase_order_message1);
+        purchaseOrder += "\n" + getString(R.string.purchase_order_message2);
+        purchaseOrder += "\n" + getString(R.string.purchase_order_message3);
+        purchaseOrder += "\n" + getString(R.string.purchase_order_message4);
+        purchaseOrder += "\n" + getString(R.string.purchase_order_message5);
+        purchaseOrder += "\n" + getString(R.string.purchase_order_message6);
+
+        return purchaseOrder;
     }
 }
