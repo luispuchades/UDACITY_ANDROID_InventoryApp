@@ -42,6 +42,9 @@ public class EditorActivity extends AppCompatActivity implements
     /** EditText field to enter the product's name */
     private EditText mNameEditText;
 
+    /** EditText field to enter the product supplier's mail */
+    private EditText mEmailEditText;
+
     /** EditText field to enter the product's price */
     private EditText mPriceEditText;
 
@@ -64,6 +67,12 @@ public class EditorActivity extends AppCompatActivity implements
 
     /** Order from the supplier variable  */
     private Button mOrderSupplier;
+
+    /** Variable for the product name */
+    private String mName;
+
+    /** Variable for the supplier email */
+    private String mEmail;
 
     /** Minimum quantity order from the supplier */
     private static final int MINIMUM_QUANTITY_ORDER = 6;
@@ -110,6 +119,7 @@ public class EditorActivity extends AppCompatActivity implements
 
         // Find all relevant views that we will need to read user input from
         mNameEditText = (EditText) findViewById(R.id.edit_product_name);
+        mEmailEditText = (EditText) findViewById(R.id.edit_supplier_mail);
         mPriceEditText = (EditText) findViewById(R.id.edit_product_price);
         mQuantityEditText = (EditText) findViewById(R.id.edit_product_quantity);
         mIncreaseByOneButton = (Button) findViewById(R.id.edit_increase_one);
@@ -120,10 +130,10 @@ public class EditorActivity extends AppCompatActivity implements
         // has touched or modified them. This will let us know if there are unsaved changes
         // or not, if the user tries to leave the editor without saving.
         mNameEditText.setOnTouchListener(mTouchListener);
+        mEmailEditText.setOnTouchListener(mTouchListener);
         mPriceEditText.setOnTouchListener(mTouchListener);
         mQuantityEditText.setOnTouchListener(mTouchListener);
 
-        orderFromTheSupplier();
     }
 
     /**
@@ -133,6 +143,7 @@ public class EditorActivity extends AppCompatActivity implements
         // Read from input fields
         // Use trim to eliminate leading or trailing white space
         String nameString = mNameEditText.getText().toString().trim();
+        String emailString = mEmailEditText.getText().toString().trim();
         String priceString = mPriceEditText.getText().toString().trim();
         String quantityString = mQuantityEditText.getText().toString().trim();
 
@@ -150,6 +161,7 @@ public class EditorActivity extends AppCompatActivity implements
         // and product attributes from the editor are the values.
         ContentValues values = new ContentValues();
         values.put(ProductEntry.COLUMN_PRODUCT_NAME, nameString);
+        values.put(ProductEntry.COLUMN_PRODUCT_EMAIL, emailString);
         values.put(ProductEntry.COLUMN_PRODUCT_PRICE, priceString);
         values.put(ProductEntry.COLUMN_PRODUCT_QUANTITY, quantityString);
         // If the weight is not provided by the user, don't try to parse the string into an
@@ -297,6 +309,7 @@ public class EditorActivity extends AppCompatActivity implements
         String[] projection = {
                 ProductEntry._ID,
                 ProductEntry.COLUMN_PRODUCT_NAME,
+                ProductEntry.COLUMN_PRODUCT_EMAIL,
                 ProductEntry.COLUMN_PRODUCT_PRICE,
                 ProductEntry.COLUMN_PRODUCT_QUANTITY };
 
@@ -321,20 +334,24 @@ public class EditorActivity extends AppCompatActivity implements
         if (cursor.moveToFirst()) {
             // Find the columns of product attributes that we're interested in
             int nameColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_NAME);
+            int emailColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_EMAIL);
             int priceColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_PRICE);
             int quantityColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_QUANTITY);
 
 
             // Extract out the value from the Cursor for the given column index
-            String name = cursor.getString(nameColumnIndex);
+            mName = cursor.getString(nameColumnIndex);
+            mEmail = cursor.getString(emailColumnIndex);
             int price = cursor.getInt(priceColumnIndex);
             mQuantity = cursor.getInt(quantityColumnIndex);
 
             increaseQuantityByOneListener();
             decreaseQuantityByOneListener();
+            supplierOrderListener();
 
             // Update the views on the screen with the values from the database
-            mNameEditText.setText(name);
+            mNameEditText.setText(mName);
+            mEmailEditText.setText(mEmail);
             mPriceEditText.setText(Integer.toString(price));
             mQuantityEditText.setText(Integer.toString(mQuantity));
 
@@ -400,6 +417,7 @@ public class EditorActivity extends AppCompatActivity implements
     public void onLoaderReset(Loader<Cursor> loader) {
         // If the loader is invalidated, clear out all the data from the input fields.
         mNameEditText.setText("");
+        mEmailEditText.setText("");
         mPriceEditText.setText("");
         mQuantityEditText.setText("");
     }
@@ -467,29 +485,38 @@ public class EditorActivity extends AppCompatActivity implements
         return rowsAffected;
     }
 
-    private void orderFromTheSupplier() {
-        mOrderSupplier.setOnClickListener(new View.OnClickListener() {
+    private void supplierOrderListener() {
+        mEmailEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mailToSupplier();
+                if (!Utils.isValidEmail(mEmail)) {
+                    // Mail address is not valid
+                    Toast.makeText(getApplicationContext(), R.string.email_not_valid,
+                            Toast.LENGTH_SHORT).show();
+                } else {
+
+                    Intent intent = new Intent(Intent.ACTION_SENDTO);
+
+                    /* This works */
+                    String uriText = "mailto:" + mEmail +
+                            "?subject=" + Uri.encode(getString(R.string.purchase_order_subject)) +
+                            "&body=" + String.format(getString(R.string.mail_body),
+                            mName);
+                    Uri uri = Uri.parse(uriText);
+                    intent.setData(uri);
+
+                    if (intent.resolveActivity(getPackageManager()) != null) {
+                        startActivity(intent);
+                    } else {
+                        // Could not start dial activity
+                        Toast.makeText(getApplicationContext(), R.string.could_not_mail,
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
         });
     }
 
-
-    private void mailToSupplier() {
-
-        String orderSummary = createOrderSummary();
-
-        Intent intent = new Intent(Intent.ACTION_SENDTO);
-        intent.setData(Uri.parse("mailto:"));
-        intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.purchase_order_subject));
-        intent.putExtra(Intent.EXTRA_TEXT, orderSummary);
-
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivity(intent);
-        }
-    }
 
     private String createOrderSummary() {
         String purchaseOrder = getString(R.string.purchase_order_message1);

@@ -101,11 +101,16 @@
     <string name="purchase_order_message4">Quantity:</string>
     <string name="purchase_order_message5">(Data to be filled by the Purchase Manager)</string>
     <string name="purchase_order_message6">Thank you</string>
-
+    <string name="email_not_valid">Email address is not valid</string>
+    <string name="mail_body">Please send additional units of %s</string>
+    <string name="could_not_mail">Could not start Mail activity</string>
 
     <!-- _________________________ ProductCursorAdapter _________________________ -->
     <string name="error_no_product_available">No product available</string>
 
     <string name="quantity_updated_successfully">Quantity updated successfully</string>
+
+
+
 
 </resources>

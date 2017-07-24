@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/dimen_16dp"
-    android:paddingRight="@dimen/dimen_16dp"
-    android:paddingTop="@dimen/dimen_8dp">
+    android:paddingRight="@dimen/dimen_16dp">
 
     <!-- Overview Category -->
     <LinearLayout
@@ -23,6 +22,22 @@
             android:id="@+id/edit_product_name"
             style="@style/editor_edit_style"
             android:hint="name"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:text="Supplier Mail:"
+            style="@style/editor_text_view_style" />
+
+        <EditText
+            android:id="@+id/edit_supplier_mail"
+            android:inputType="textEmailAddress"
+            style="@style/editor_edit_style"
+            android:hint="supplier mail"/>
     </LinearLayout>
 
     <LinearLayout
@@ -96,8 +111,8 @@
             style="@style/image_view_product_image" />
 
         <Button
-            android:id="@+id/button_select_image"
-            style="@style/browse_image_button"
+            android:id="@+id/button_image"
+            style="@style/add_image_button"
             android:text="@string/product_add_image_button" />
 
     </LinearLayout>

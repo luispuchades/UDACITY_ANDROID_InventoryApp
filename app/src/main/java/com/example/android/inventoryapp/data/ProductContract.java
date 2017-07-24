@@ -78,6 +78,13 @@ public final class ProductContract {
         public final static String COLUMN_PRODUCT_NAME ="name";
 
         /**
+         * Mail of the supplier.
+         *
+         * Type: MAIL
+         */
+        public final static String COLUMN_PRODUCT_EMAIL = "email";
+
+        /**
          * Price of the product.
          *
          * Type: INTEGER
